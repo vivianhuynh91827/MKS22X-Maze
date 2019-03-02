@@ -42,9 +42,36 @@ public class Maze {
     }
   }
 
+  private void wait(int millis) {
+    try {
+      Thread.sleep(millis);
+    }
+    catch (InterruptedException e) {}
+  }
+
+  public void setAnimate(boolean b) {
+    animate = b;
+  }
+
+  public void clearTerminal() {
+    System.out.println("\033[2J\033[1;1H");
+  }
+
+  public String toString() {
+    String s = "";
+    for (int r = 0; r < maze.length; r++) {
+      for (int c = 0; c < maze[0].length; c++) {
+        s+=maze[r][c];
+      }
+      s+="\n";
+    }
+    return s.substring(0,s.length()-1);
+  }
+
   public static void main(String[] args) {
     try {
       Maze test = new Maze("data1.dat");
+      System.out.println(test);
     }
     catch(FileNotFoundException e) {
       System.out.println(e);
