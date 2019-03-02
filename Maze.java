@@ -20,21 +20,34 @@ public class Maze {
   */
   public Maze(String filename) throws FileNotFoundException {
     animate = false;
-    String newMaze = "";
     File f = new File(filename);
     Scanner in = new Scanner(f);
     int rows = 0;
     while (in.hasNextLine()) {
       rows++;
+      in.nextLine();
     }
-    int cols = 0;
     in = new Scanner(f);
-    String character = in.next();
-    while (in.hasNext() && !character.equals("\n") ){
-      character = in.next();
-      cols++;
-    }
+    String row = in.nextLine();
+    int cols = row.length();
     maze = new char[rows][cols];
+    System.out.println(rows);
+    System.out.println(cols);
+    in = new Scanner(f);
+    for (int r = 0; r < rows; r++) {
+      String line = in.nextLine();
+      for (int c = 0; c < cols; c++) {
+        maze[r][c]=line.charAt(c);
+      }
+    }
   }
 
+  public static void main(String[] args) {
+    try {
+      Maze test = new Maze("data1.dat");
+    }
+    catch(FileNotFoundException e) {
+      System.out.println(e);
+    }
+  }
 }
