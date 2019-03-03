@@ -86,7 +86,7 @@ public class Maze {
     if (animate) {
       clearTerminal();
       System.out.println(this);
-      wait(20);
+      wait(100);
     }
     if (maze[row][col] == 'E') return count;
     for (int i = 0; i < 4; i++) {
@@ -94,18 +94,17 @@ public class Maze {
       int newC = col+increments[1][i];
       if (canMove(row, col, increments[0][i], increments[1][i])) {
         maze[row][col]='@';
-        return solve(newR, newC, count+1);
+        int result = solve(newR, newC, count+1);
+        if (result!=-1) {
+          return result;
+        }
       }
-      maze[row][col] = '.';
+      maze[row][col]='.';
     }
     return -1;
   }
 
   private boolean canMove(int row, int col, int incR, int incC) {
-    System.out.println(row);
-    System.out.println(col);
-    System.out.println(row+incR);
-    System.out.println(col+incC);
     char newLocation = maze[row+incR][col+incC];
     if (newLocation == '#') return false;
     if (newLocation == '.') return false;
@@ -115,10 +114,9 @@ public class Maze {
 
   public static void main(String[] args) {
     try {
-      Maze test = new Maze("data2.dat");
-      System.out.println(test);
-      test.solve();
-      System.out.println(test);
+      Maze test = new Maze("data3.dat");
+      test.setAnimate(true);
+      System.out.println(test.solve());
     }
     catch(FileNotFoundException e) {
       System.out.println(e);
