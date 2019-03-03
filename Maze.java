@@ -4,6 +4,7 @@ import java.io.*;
 public class Maze {
   private char[][] maze;
   private boolean animate;
+  private int[][] increments = {{0,0,1,-1},{1,-1,0,0}};
 
   /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -31,8 +32,6 @@ public class Maze {
     String row = in.nextLine();
     int cols = row.length();
     maze = new char[rows][cols];
-    System.out.println(rows);
-    System.out.println(cols);
     in = new Scanner(f);
     for (int r = 0; r < rows; r++) {
       String line = in.nextLine();
@@ -68,9 +67,57 @@ public class Maze {
     return s.substring(0,s.length()-1);
   }
 
+  public int solve() {
+    int sR = 0;
+    int sC = 0;
+    for (int r = 0; r < maze.length; r++) {
+      for (int c = 0; c < maze[0].length; c++) {
+        if (maze[r][c]=='S') {
+          sR = r;
+          sC = c;
+          maze[r][c]='@';
+        }
+      }
+    }
+    return solve(sR,sC,1);
+  }
+
+  private int solve(int row, int col, int count) {
+    if (animate) {
+      clearTerminal();
+      System.out.println(this);
+      wait(20);
+    }
+    if (maze[row][col] == 'E') return count;
+    for (int i = 0; i < 4; i++) {
+      int newR = row+increments[0][i];
+      int newC = col+increments[1][i];
+      if (canMove(row, col, increments[0][i], increments[1][i])) {
+        maze[row][col]='@';
+        return solve(newR, newC, count+1);
+      }
+      maze[row][col] = '.';
+    }
+    return -1;
+  }
+
+  private boolean canMove(int row, int col, int incR, int incC) {
+    System.out.println(row);
+    System.out.println(col);
+    System.out.println(row+incR);
+    System.out.println(col+incC);
+    char newLocation = maze[row+incR][col+incC];
+    if (newLocation == '#') return false;
+    if (newLocation == '.') return false;
+    if (newLocation == '@') return false;
+    return true;
+  }
+
   public static void main(String[] args) {
     try {
-      Maze test = new Maze("data1.dat");
+      Maze test = new Maze("data2.dat");
+      System.out.println(test);
+      test.solve();
       System.out.println(test);
     }
     catch(FileNotFoundException e) {
