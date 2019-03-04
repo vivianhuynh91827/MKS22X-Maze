@@ -60,7 +60,7 @@ public class Maze {
     String s = "";
     for (int r = 0; r < maze.length; r++) {
       for (int c = 0; c < maze[0].length; c++) {
-        s+=maze[r][c];
+          s+=maze[r][c];
       }
       s+="\n";
     }
@@ -79,14 +79,14 @@ public class Maze {
         }
       }
     }
-    return solve(sR,sC,1);
+    return solve(sR,sC,0);
   }
 
   private int solve(int row, int col, int count) {
     if (animate) {
       clearTerminal();
       System.out.println(this);
-      wait(100);
+      wait(30);
     }
     if (maze[row][col] == 'E') return count;
     for (int i = 0; i < 4; i++) {
@@ -112,14 +112,14 @@ public class Maze {
     return true;
   }
 
-  public static void main(String[] args) {
-    try {
-      Maze test = new Maze("data3.dat");
-      test.setAnimate(true);
-      System.out.println(test.solve());
-    }
-    catch(FileNotFoundException e) {
-      System.out.println(e);
-    }
-  }
+  // public static void main(String[] args) {
+  //   try {
+  //     Maze test = new Maze("data1.dat");
+  //     test.setAnimate(true);
+  //     System.out.println(test.solve());
+  //   }
+  //   catch(FileNotFoundException e) {
+  //     System.out.println(e);
+  //   }
+  // }
 }
